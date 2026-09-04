@@ -28,8 +28,8 @@ import re
 import h5py
 import numpy as np
 
-from rootfileviewer.backends._common import MAX_SPLIT_COLUMNS, is_structured, to_awkward
-from rootfileviewer.core import Node
+from datafileviewer.backends._common import MAX_SPLIT_COLUMNS, is_structured, to_awkward
+from datafileviewer.core import Node
 
 # Attribute names tried, in order, to find per-feature names for a dataset's
 # last axis. Not a formal HDF5 standard -- just the common spellings seen in

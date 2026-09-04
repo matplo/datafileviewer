@@ -3,8 +3,8 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "rootfileviewer"
-version = "0.13.0"
+name = "datafileviewer"
+version = "1.0.0"
 description = "Terminal viewer for ROOT, Parquet, HDF5, numpy, and pandas-readable files — ASCII tree, branch/column tables, and an interactive TUI."
 readme = "README.md"
 license = "MIT"
@@ -12,7 +12,7 @@ requires-python = ">=3.9"
 authors = [
     { name = "matplo" },
 ]
-keywords = ["root", "uproot", "parquet", "pyarrow", "hdf5", "h5py", "numpy", "npy", "npz", "pandas", "csv", "feather", "matplotlib", "png", "cern", "physics", "terminal", "tui", "cli"]
+keywords = ["datafileviewer", "rootfileviewer", "root", "uproot", "parquet", "pyarrow", "hdf5", "h5py", "numpy", "npy", "npz", "pandas", "csv", "feather", "matplotlib", "png", "cern", "physics", "terminal", "tui", "cli"]
 classifiers = [
     "Environment :: Console",
     "Intended Audience :: Science/Research",
@@ -34,16 +34,16 @@ parquet = ["pyarrow>=14.0"]
 hdf5 = ["h5py>=3.0"]
 pandas = ["pandas>=2.0", "pyarrow>=14.0"]
 matplotlib = ["matplotlib>=3.0"]
-all = ["rootfileviewer[parquet,hdf5,pandas,matplotlib]"]
+all = ["datafileviewer[parquet,hdf5,pandas,matplotlib]"]
 
 [project.urls]
-Homepage = "https://github.com/matplo/rootfileviewer"
-Issues = "https://github.com/matplo/rootfileviewer/issues"
+Homepage = "https://github.com/matplo/datafileviewer"
+Issues = "https://github.com/matplo/datafileviewer/issues"
 
 [project.scripts]
-rootfileviewer = "rootfileviewer.cli:main"
-rfv = "rootfileviewer.cli:main"
-rfvt = "rootfileviewer.cli:main_tui"
+datafileviewer = "datafileviewer.cli:main"
+dfv = "datafileviewer.cli:main"
+dfvt = "datafileviewer.cli:main_tui"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/rootfileviewer"]
+packages = ["src/datafileviewer"]

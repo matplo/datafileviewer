@@ -1,4 +1,4 @@
-# rootfileviewer
+# datafileviewer
 
 Inspect a [ROOT](https://root.cern), [Parquet](https://parquet.apache.org),
 [HDF5](https://www.hdfgroup.org/solutions/hdf5/), [numpy](https://numpy.org)
@@ -31,7 +31,7 @@ itself — with no PyROOT/ROOT installation required.
   for piping into `grep`/`awk`/other scripts.
 
 Parquet, HDF5, and pandas support are optional extras (see
-[Install](#install)) — a lean `pip install rootfileviewer` covers ROOT files
+[Install](#install)) — a lean `pip install datafileviewer` covers ROOT files
 only, so pointing it at a file needing one of these without the matching
 extra prints clear install instructions instead of failing with an import
 error.
@@ -45,13 +45,13 @@ open files like these from sources you trust.
 ## Install
 
 ```bash
-pip install rootfileviewer
+pip install datafileviewer
 ```
 
-This installs `rootfileviewer` on [PyPI](https://pypi.org/project/rootfileviewer/),
-along with two shorter aliases for it: `rfv` (equivalent to `rootfileviewer`)
-and `rfvt` (equivalent to `rootfileviewer --tui`). So `rfv examples/sample.root`
-and `rfvt examples/sample.root` work anywhere the long forms do.
+This installs `datafileviewer` on [PyPI](https://pypi.org/project/datafileviewer/),
+along with two shorter aliases for it: `dfv` (equivalent to `datafileviewer`)
+and `dfvt` (equivalent to `datafileviewer --tui`). So `dfv examples/sample.root`
+and `dfvt examples/sample.root` work anywhere the long forms do.
 
 The base install only pulls in `uproot` (and `rich`/`textual`/`plotext` for
 rendering) — it does **not** require `pyarrow`, `h5py`, or `pandas`, so it
@@ -62,11 +62,11 @@ dependency). Parquet, HDF5, and pandas-readable formats are optional extras
 [Exporting a plot as a PNG](#exporting-a-plot-as-a-png)):
 
 ```bash
-pip install 'rootfileviewer[parquet]'     # adds pyarrow, for .parquet/.pq files
-pip install 'rootfileviewer[hdf5]'        # adds h5py, for .h5/.hdf5 files
-pip install 'rootfileviewer[pandas]'      # adds pandas+pyarrow, for .csv/.pkl/.feather/.jsonl files
-pip install 'rootfileviewer[matplotlib]'  # adds matplotlib, for the TUI's PNG export
-pip install 'rootfileviewer[all]'         # every optional format's dependencies, plus matplotlib
+pip install 'datafileviewer[parquet]'     # adds pyarrow, for .parquet/.pq files
+pip install 'datafileviewer[hdf5]'        # adds h5py, for .h5/.hdf5 files
+pip install 'datafileviewer[pandas]'      # adds pandas+pyarrow, for .csv/.pkl/.feather/.jsonl files
+pip install 'datafileviewer[matplotlib]'  # adds matplotlib, for the TUI's PNG export
+pip install 'datafileviewer[all]'         # every optional format's dependencies, plus matplotlib
 ```
 
 If you point a lean install at a file needing an extra you don't have, it
@@ -75,18 +75,18 @@ extension even for a backend covering several of them at once (`.csv`,
 `.pkl`, `.feather`, `.jsonl` all route through the same `pandas` extra):
 
 ```
-$ rootfileviewer data.parquet
+$ datafileviewer data.parquet
 error: reading .parquet files needs: pyarrow
 Install it with either:
-    pip install 'rootfileviewer[parquet]'
+    pip install 'datafileviewer[parquet]'
 or:
     pip install pyarrow
 then re-run this command.
 
-$ rootfileviewer data.csv
+$ datafileviewer data.csv
 error: reading .csv files needs: pandas
 Install it with either:
-    pip install 'rootfileviewer[pandas]'
+    pip install 'datafileviewer[pandas]'
 or:
     pip install pandas
 then re-run this command.
@@ -95,14 +95,14 @@ then re-run this command.
 You can also install straight from GitHub:
 
 ```bash
-pip install git+https://github.com/matplo/rootfileviewer.git
+pip install git+https://github.com/matplo/datafileviewer.git
 ```
 
 Or clone and install locally:
 
 ```bash
-git clone https://github.com/matplo/rootfileviewer.git
-cd rootfileviewer
+git clone https://github.com/matplo/datafileviewer.git
+cd datafileviewer
 pip install -e .
 ```
 
@@ -154,15 +154,15 @@ string like `"[1.0, 2.0]"` — so only the binary/structured formats include it)
 Clone the repo and run these directly:
 
 ```bash
-git clone https://github.com/matplo/rootfileviewer.git
-cd rootfileviewer
-rootfileviewer examples/sample.root
+git clone https://github.com/matplo/datafileviewer.git
+cd datafileviewer
+datafileviewer examples/sample.root
 ```
 
 ### One-shot mode
 
 ```bash
-rootfileviewer examples/sample.root
+datafileviewer examples/sample.root
 ```
 
 ```
@@ -200,7 +200,7 @@ installed — the summary panel and per-column table use Parquet-appropriate
 wording instead of ROOT's:
 
 ```bash
-rootfileviewer examples/sample.parquet
+datafileviewer examples/sample.parquet
 ```
 
 ```
@@ -230,7 +230,7 @@ dtype and shape directly (no separate per-tree table is needed, since
 there's nothing hidden the way ROOT branches are inside a TTree):
 
 ```bash
-rootfileviewer examples/sample.h5
+datafileviewer examples/sample.h5
 ```
 
 ```
@@ -265,7 +265,7 @@ individually named, selectable, plottable columns — exactly like a
 `jet` dataset (3 columns: `pt`/`eta`/`phi`) demonstrates this:
 
 ```bash
-rootfileviewer examples/sample.h5
+datafileviewer examples/sample.h5
 ```
 
 ```
@@ -298,7 +298,7 @@ ever gets — demonstrated by `sample.npz`'s own `hits` array (3 unnamed
 columns):
 
 ```bash
-rootfileviewer examples/sample.npz
+datafileviewer examples/sample.npz
 ```
 
 ```
@@ -320,7 +320,7 @@ group under a wrapper, unlike Parquet/HDF5), with the ragged array's dtype
 shown as `ragged<float64>` rather than the less useful raw `object`:
 
 ```bash
-rootfileviewer examples/sample.npz
+datafileviewer examples/sample.npz
 ```
 
 ```
@@ -346,7 +346,7 @@ pandas-readable files (CSV, pickle, Feather, JSON Lines) share the same
 installed:
 
 ```bash
-rootfileviewer examples/sample.pkl
+datafileviewer examples/sample.pkl
 ```
 
 ```
@@ -372,9 +372,9 @@ Table: sample.pkl  (2,000 entries)
 Other one-shot flags:
 
 ```bash
-rootfileviewer examples/sample.root --depth 0            # don't recurse into subdirectories
-rootfileviewer examples/sample.root --filter 'events'    # only show keys matching a regex
-rootfileviewer examples/sample.root --no-branches        # skip the per-TTree branch tables
+datafileviewer examples/sample.root --depth 0            # don't recurse into subdirectories
+datafileviewer examples/sample.root --filter 'events'    # only show keys matching a regex
+datafileviewer examples/sample.root --no-branches        # skip the per-TTree branch tables
 ```
 
 For Parquet files, `--filter` matches **column** names instead (there's only
@@ -383,8 +383,8 @@ one flat table, so there's nothing else to filter), `--depth` is a no-op
 same way:
 
 ```bash
-rootfileviewer examples/sample.parquet --filter 'pt|eta'    # only pt/eta columns
-rootfileviewer examples/sample.parquet --no-branches        # skip the column table
+datafileviewer examples/sample.parquet --filter 'pt|eta'    # only pt/eta columns
+datafileviewer examples/sample.parquet --no-branches        # skip the column table
 ```
 
 HDF5 is the one non-ROOT format where `--depth` does something real, since
@@ -396,8 +396,8 @@ the tree above), but does skip the column table for a
 TTree's branch table:
 
 ```bash
-rootfileviewer examples/sample.h5 --depth 0          # don't recurse into aux/
-rootfileviewer examples/sample.h5 --filter 'pt|eta'  # only pt/eta datasets
+datafileviewer examples/sample.h5 --depth 0          # don't recurse into aux/
+datafileviewer examples/sample.h5 --filter 'pt|eta'  # only pt/eta datasets
 ```
 
 For numpy files, `--filter` matches array names (meaningful for a `.npz`'s
@@ -407,22 +407,22 @@ a plain array but does skip a column-split one's table (like `hits`), same
 reasoning as HDF5:
 
 ```bash
-rootfileviewer examples/sample.npz --filter 'pt|eta'  # only pt/eta arrays
+datafileviewer examples/sample.npz --filter 'pt|eta'  # only pt/eta arrays
 ```
 
 pandas-readable files behave exactly like Parquet: `--filter` matches column
 names, `--depth` is a no-op, `--no-branches` skips the column table:
 
 ```bash
-rootfileviewer examples/sample.pkl --filter 'pt|eta'  # only pt/eta columns
+datafileviewer examples/sample.pkl --filter 'pt|eta'  # only pt/eta columns
 ```
 
 ### Interactive TUI
 
 ```bash
-rootfileviewer examples/sample.root --tui
+datafileviewer examples/sample.root --tui
 # or, equivalently:
-rfvt examples/sample.root
+dfvt examples/sample.root
 ```
 
 Arrow keys navigate the tree on the left; `Enter`/click selects a node and
@@ -432,7 +432,7 @@ logarithmic x-/y-axis on the current plot (see
 [Logarithmic axes](#logarithmic-axes) below).
 
 ```
-┌─ rootfileviewer: sample.root ──────────────────────────────────────────────────┐
+┌─ datafileviewer: sample.root ──────────────────────────────────────────────────┐
 │ ┌─ tree ───────────────────┐ ┌─ detail ─────────────────────────────┐   │
 │ │ ▼ sample.root             │ │ Field     Value                     │   │
 │ │   ▼ events (TTree) - ...  │ │ branch    pt                        │   │
@@ -528,7 +528,7 @@ node (the file's implicit flat table), which itself expands into its
 columns — same navigation, same plotting:
 
 ```bash
-rootfileviewer examples/sample.parquet --tui
+datafileviewer examples/sample.parquet --tui
 ```
 
 <details>
@@ -590,7 +590,7 @@ dataset, flattened across all its rows the same way a jagged ROOT branch or
 a Parquet `list<double>` column is:
 
 ```bash
-rootfileviewer examples/sample.h5 --tui
+datafileviewer examples/sample.h5 --tui
 ```
 
 <details>
@@ -662,7 +662,7 @@ object-dtype representation of jagged data rather than HDF5's variable-length
 datasets:
 
 ```bash
-rootfileviewer examples/sample.npz --tui
+datafileviewer examples/sample.npz --tui
 ```
 
 <details>
@@ -722,7 +722,7 @@ same way Parquet's does — a ragged/list-valued column flattens exactly like
 the numpy/HDF5 cases above:
 
 ```bash
-rootfileviewer examples/sample.pkl --tui
+datafileviewer examples/sample.pkl --tui
 ```
 
 <details>
@@ -823,7 +823,7 @@ affected by this restriction at all since counts are never negative.
 Press `p` while a plot is showing to save it as a real PNG via
 [`matplotlib`](https://matplotlib.org/) — an optional extra (see
 [Install](#install)); without it, `p` shows a toast telling you to
-`pip install 'rootfileviewer[matplotlib]'` rather than crashing. The file is
+`pip install 'datafileviewer[matplotlib]'` rather than crashing. The file is
 named `<source-file-stem>_<node-name>.png` (e.g. `sample_pt.png`) in the
 current directory — pressing `p` again on the same node overwrites it
 rather than piling up new files. It's self-documenting: the node name is
@@ -832,7 +832,7 @@ shown in the detail panel (e.g. `2,000 entries`, or `200,000/5,000,000
 entries, ..., N non-finite excluded` on a huge or messy branch):
 
 ```
-$ rootfileviewer examples/sample.root --tui
+$ datafileviewer examples/sample.root --tui
 # select the pt branch, press p
 Saved sample_pt.png
 ```
@@ -858,7 +858,7 @@ each line starts with a record-type tag (`summary`/`object`/`branch`) so a
 consumer can pick out what it needs:
 
 ```bash
-rootfileviewer examples/sample.root -t
+datafileviewer examples/sample.root -t
 ```
 
 ```
@@ -881,9 +881,9 @@ branch	aux/meta	run_number	int32_t
 ```
 
 ```bash
-rootfileviewer examples/sample.root -t | grep '^branch'
-rootfileviewer examples/sample.root -t | awk -F'\t' '$1 == "branch" && $2 == "events" {print $3, $4}'
-rootfileviewer examples/sample.root -t | awk -F'\t' '$1 == "object" && $3 == "TTree" {print $2}'
+datafileviewer examples/sample.root -t | grep '^branch'
+datafileviewer examples/sample.root -t | awk -F'\t' '$1 == "branch" && $2 == "events" {print $3, $4}'
+datafileviewer examples/sample.root -t | awk -F'\t' '$1 == "object" && $3 == "TTree" {print $2}'
 ```
 
 The same tags cover Parquet output — a script can tell the two apart via
@@ -892,7 +892,7 @@ the `branch` tag itself is reused for columns rather than introducing a
 separate `column` tag:
 
 ```bash
-rootfileviewer examples/sample.parquet -t
+datafileviewer examples/sample.parquet -t
 ```
 
 ```
@@ -919,7 +919,7 @@ exception — it's `object`-tagged as an `HDF5FeatureSet`, and its columns get
 `branch` rows the same way a TTree's or DataFrameTable's do:
 
 ```bash
-rootfileviewer examples/sample.h5 -t
+datafileviewer examples/sample.h5 -t
 ```
 
 ```
@@ -949,7 +949,7 @@ column-split array like `hits`, which gets `branch` rows the same way an
 `HDF5FeatureSet` does:
 
 ```bash
-rootfileviewer examples/sample.npz -t
+datafileviewer examples/sample.npz -t
 ```
 
 ```
@@ -973,7 +973,7 @@ pandas-readable files share the `branch`-tag output with Parquet (both use
 the same synthetic-table wrapper):
 
 ```bash
-rootfileviewer examples/sample.pkl -t
+datafileviewer examples/sample.pkl -t
 ```
 
 ```
@@ -995,7 +995,7 @@ branch	table	tracks_energy	ragged<float64>
 
 | Flag              | Description                                             |
 |-------------------|----------------------------------------------------------|
-| `--tui`           | launch the interactive textual TUI instead of printing (same as running `rfvt`) |
+| `--tui`           | launch the interactive textual TUI instead of printing (same as running `dfvt`) |
 | `--terse`, `-t`   | flat, tab-separated output with no borders/colors        |
 | `--depth N`       | limit directory recursion depth (ROOT, HDF5 — no-op for Parquet/numpy/pandas, which are flat) |
 | `--filter REGEX`  | only show keys/group/dataset names matching REGEX (ROOT, HDF5), or column/array names (Parquet, numpy, pandas) |

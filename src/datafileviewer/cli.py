@@ -1,4 +1,4 @@
-"""Command-line entry point for rootfileviewer."""
+"""Command-line entry point for datafileviewer."""
 
 from __future__ import annotations
 
@@ -8,22 +8,22 @@ import sys
 
 import uproot
 
-from rootfileviewer.backends import MissingBackendError, find_backend, load_backend
-from rootfileviewer.core import file_summary, walk_directory
+from datafileviewer.backends import MissingBackendError, find_backend, load_backend
+from datafileviewer.core import file_summary, walk_directory
 
 
 def _dispatch(args, path: str, nodes, summary: dict) -> None:
     """Run the requested output mode (TUI/terse/one-shot) against nodes/summary."""
     if args.tui:
-        from rootfileviewer.tui import run_tui
+        from datafileviewer.tui import run_tui
 
         run_tui(path, nodes, summary)
     elif args.terse:
-        from rootfileviewer.render import render_terse
+        from datafileviewer.render import render_terse
 
         render_terse(path, nodes, summary, show_branches=not args.no_branches)
     else:
-        from rootfileviewer.render import render_cli
+        from datafileviewer.render import render_cli
 
         render_cli(path, nodes, summary, show_branches=not args.no_branches)
 
@@ -85,7 +85,7 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def main_tui(argv: list[str] | None = None) -> int:
-    """Entry point for `rfvt`: same as `rootfileviewer --tui`."""
+    """Entry point for `dfvt`: same as `datafileviewer --tui`."""
     args = list(sys.argv[1:] if argv is None else argv)
     if "--tui" not in args:
         args = ["--tui", *args]
@@ -93,7 +93,7 @@ def main_tui(argv: list[str] | None = None) -> int:
 
 
 def _version() -> str:
-    from rootfileviewer import __version__
+    from datafileviewer import __version__
 
     return __version__
 

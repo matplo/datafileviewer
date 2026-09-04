@@ -19,8 +19,8 @@ import re
 import numpy as np
 import pandas as pd
 
-from rootfileviewer.backends._common import to_awkward
-from rootfileviewer.core import Node
+from datafileviewer.backends._common import to_awkward
+from datafileviewer.core import Node
 
 _READERS = {
     ".csv": pd.read_csv,

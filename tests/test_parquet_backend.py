@@ -5,12 +5,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from rootfileviewer.core import branch_histogram_data, branch_nodes
+from datafileviewer.core import branch_histogram_data, branch_nodes
 
 HAVE_PYARROW = importlib.util.find_spec("pyarrow") is not None
 
 
-@unittest.skipUnless(HAVE_PYARROW, "pyarrow not installed (pip install rootfileviewer[parquet])")
+@unittest.skipUnless(HAVE_PYARROW, "pyarrow not installed (pip install datafileviewer[parquet])")
 class ParquetBackendTests(unittest.TestCase):
     def _write(self, table_dict) -> str:
         import pyarrow as pa
@@ -21,7 +21,7 @@ class ParquetBackendTests(unittest.TestCase):
         return path
 
     def _branch(self, path: str, name: str):
-        from rootfileviewer.backends.parquet import walk
+        from datafileviewer.backends.parquet import walk
 
         table = walk(path)[0].obj
         return {b.name: b for b in branch_nodes(table)}[name].obj

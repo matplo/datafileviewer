@@ -1,4 +1,7 @@
-"""Shared core: uproot-only data extraction, no rendering dependencies."""
+"""Shared core: format-agnostic Node model and histogramming, no rendering
+dependencies. ROOT-specific reading lives here directly (uproot is a hard
+dependency); every other format's reading lives in backends/, duck-typing
+the same TTree/TBranch-shaped interface these functions consume."""
 
 from __future__ import annotations
 

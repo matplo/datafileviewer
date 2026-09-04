@@ -34,21 +34,21 @@ BACKENDS: tuple[BackendSpec, ...] = (
     BackendSpec(
         name="parquet",
         extensions=(".parquet", ".pq"),
-        module="rootfileviewer.backends.parquet",
+        module="datafileviewer.backends.parquet",
         extra="parquet",
         packages=("pyarrow",),
     ),
     BackendSpec(
         name="hdf5",
         extensions=(".h5", ".hdf5"),
-        module="rootfileviewer.backends.hdf5",
+        module="datafileviewer.backends.hdf5",
         extra="hdf5",
         packages=("h5py",),
     ),
     BackendSpec(
         name="numpy",
         extensions=(".npy", ".npz"),
-        module="rootfileviewer.backends.numpy_arrays",
+        module="datafileviewer.backends.numpy_arrays",
         extra="numpy",
         # numpy is always present already (it's uproot's own dependency), so
         # this never actually gates anything -- no [numpy] extras group
@@ -59,7 +59,7 @@ BACKENDS: tuple[BackendSpec, ...] = (
     BackendSpec(
         name="pandas",
         extensions=(".csv", ".pkl", ".pickle", ".feather", ".jsonl", ".ndjson"),
-        module="rootfileviewer.backends.pandas_tables",
+        module="datafileviewer.backends.pandas_tables",
         extra="pandas",
         # .feather specifically also needs pyarrow underneath
         # pandas.read_feather; this probe only checks the common
@@ -85,7 +85,7 @@ class MissingBackendError(RuntimeError):
         super().__init__(
             f"reading {ext} files needs: {pkgs}\n"
             f"Install it with either:\n"
-            f"    pip install 'rootfileviewer[{spec.extra}]'\n"
+            f"    pip install 'datafileviewer[{spec.extra}]'\n"
             f"or:\n"
             f"    pip install {pkgs}\n"
             f"then re-run this command."

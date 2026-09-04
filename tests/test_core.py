@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-from rootfileviewer.core import branch_histogram_data
+from datafileviewer.core import branch_histogram_data
 
 
 class _FakeBranch:

@@ -21,7 +21,7 @@ import re
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from rootfileviewer.core import Node
+from datafileviewer.core import Node
 
 
 def _rejects_nesting(dtype: pa.DataType) -> bool:

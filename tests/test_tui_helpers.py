@@ -3,7 +3,7 @@ from __future__ import annotations
 import math
 import unittest
 
-from rootfileviewer.tui import _log_axis_ticks
+from datafileviewer.tui import _log_axis_ticks
 
 
 class LogAxisTicksTests(unittest.TestCase):

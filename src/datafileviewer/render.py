@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 
-from rootfileviewer.core import Node, flatten_nodes, flatten_trees, human_size, node_facts, node_hint, tree_branch_info
+from datafileviewer.core import Node, flatten_nodes, flatten_trees, human_size, node_facts, node_hint, tree_branch_info
 
 
 def render_cli(path: str, nodes: list[Node], summary: dict, show_branches: bool = True) -> None:
@@ -107,8 +107,8 @@ def render_terse(path: str, nodes: list[Node], summary: dict, show_branches: boo
 
     Every line starts with a record-type tag (summary/object/branch) so a
     consumer can select what it wants, e.g.:
-        rootfileviewer file.root -t | awk -F'\\t' '$1 == "branch" && $2 == "tree1"'
-        rootfileviewer file.root -t | grep '^object.*TTree'
+        datafileviewer file.root -t | awk -F'\\t' '$1 == "branch" && $2 == "tree1"'
+        datafileviewer file.root -t | grep '^object.*TTree'
     """
     for key, value in summary.items():
         print(f"summary\t{key}\t{value}")

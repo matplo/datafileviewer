@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from rootfileviewer.backends import MissingBackendError, find_backend, load_backend
+from datafileviewer.backends import MissingBackendError, find_backend, load_backend
 
 
 class BackendRegistryTests(unittest.TestCase):
@@ -46,14 +46,14 @@ class BackendRegistryTests(unittest.TestCase):
         exc = MissingBackendError(spec, ["pyarrow"], ".parquet")
         message = str(exc)
         self.assertIn("reading .parquet files needs: pyarrow", message)
-        self.assertIn("pip install 'rootfileviewer[parquet]'", message)
+        self.assertIn("pip install 'datafileviewer[parquet]'", message)
         self.assertIn("pip install pyarrow", message)
 
     def test_missing_backend_error_for_hdf5(self) -> None:
         spec = find_backend("file.h5")
         exc = MissingBackendError(spec, ["h5py"], ".h5")
         message = str(exc)
-        self.assertIn("pip install 'rootfileviewer[hdf5]'", message)
+        self.assertIn("pip install 'datafileviewer[hdf5]'", message)
         self.assertIn("pip install h5py", message)
 
     def test_missing_backend_error_uses_the_actual_extension_not_the_backend_name(self) -> None:

@@ -6,8 +6,8 @@ from pathlib import Path
 
 import numpy as np
 
-from rootfileviewer.backends.numpy_arrays import walk
-from rootfileviewer.core import branch_histogram_data, branch_nodes, node_facts
+from datafileviewer.backends.numpy_arrays import walk
+from datafileviewer.core import branch_histogram_data, branch_nodes, node_facts
 
 
 class NumpyBackendTests(unittest.TestCase):

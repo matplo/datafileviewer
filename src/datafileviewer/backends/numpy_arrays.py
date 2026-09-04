@@ -22,8 +22,8 @@ import re
 
 import numpy as np
 
-from rootfileviewer.backends._common import MAX_SPLIT_COLUMNS, is_structured, to_awkward
-from rootfileviewer.core import Node
+from datafileviewer.backends._common import MAX_SPLIT_COLUMNS, is_structured, to_awkward
+from datafileviewer.core import Node
 
 
 def _display_dtype(get, dtype) -> str:

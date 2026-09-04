@@ -7,7 +7,7 @@ import os
 import re
 from pathlib import Path
 
-from rootfileviewer.core import (
+from datafileviewer.core import (
     Node,
     branch_histogram_data,
     branch_nodes,
@@ -51,7 +51,7 @@ def run_tui(path: str, nodes: list[Node], summary: dict) -> None:
             ("y", "toggle_log_y", "Log Y"),
             ("p", "export_png", "Export PNG"),
         ]
-        TITLE = f"rootfileviewer: {os.path.basename(path)}"
+        TITLE = f"datafileviewer: {os.path.basename(path)}"
 
         def compose(self) -> ComposeResult:
             yield Header()
@@ -91,12 +91,12 @@ def run_tui(path: str, nodes: list[Node], summary: dict) -> None:
             out_path = f"{Path(path).stem}_{safe_title}.png"
             subtitle = os.path.basename(path) + (f" — {note}" if note else "")
             try:
-                from rootfileviewer.png_export import export_png
+                from datafileviewer.png_export import export_png
 
                 export_png(out_path, title, subtitle, centers, values, log_x=log_x, log_y=log_y)
             except ImportError:
                 self.notify(
-                    "PNG export needs matplotlib. Install with:\npip install 'rootfileviewer[matplotlib]'",
+                    "PNG export needs matplotlib. Install with:\npip install 'datafileviewer[matplotlib]'",
                     severity="error",
                     timeout=8,
                 )

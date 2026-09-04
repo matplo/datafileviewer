@@ -5,12 +5,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from rootfileviewer.core import branch_histogram_data, branch_nodes, node_facts
+from datafileviewer.core import branch_histogram_data, branch_nodes, node_facts
 
 HAVE_H5PY = importlib.util.find_spec("h5py") is not None
 
 
-@unittest.skipUnless(HAVE_H5PY, "h5py not installed (pip install rootfileviewer[hdf5])")
+@unittest.skipUnless(HAVE_H5PY, "h5py not installed (pip install datafileviewer[hdf5])")
 class HDF5BackendTests(unittest.TestCase):
     def _write(self, datasets: dict, groups: dict | None = None) -> str:
         import h5py
@@ -26,12 +26,12 @@ class HDF5BackendTests(unittest.TestCase):
         return path
 
     def _dataset(self, path: str, name: str):
-        from rootfileviewer.backends.hdf5 import walk
+        from datafileviewer.backends.hdf5 import walk
 
         return {n.name: n for n in walk(path)}[name].obj
 
     def test_groups_nest_like_root_directories(self) -> None:
-        from rootfileviewer.backends.hdf5 import walk
+        from datafileviewer.backends.hdf5 import walk
 
         path = self._write({"top": [1.0, 2.0]}, groups={"aux": {"run_number": [123]}})
         nodes = walk(path)
@@ -42,7 +42,7 @@ class HDF5BackendTests(unittest.TestCase):
         self.assertTrue(by_name["aux"].children[0].is_branch)
 
     def test_depth_limits_recursion(self) -> None:
-        from rootfileviewer.backends.hdf5 import walk
+        from datafileviewer.backends.hdf5 import walk
 
         path = self._write({}, groups={"aux": {"run_number": [123]}})
         nodes = walk(path, depth=0)
@@ -101,7 +101,7 @@ class HDF5BackendTests(unittest.TestCase):
         # homogeneous blob, so this should split with generic names rather
         # than flattening everything together.
         path = self._write({"grid": [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]]})
-        from rootfileviewer.backends.hdf5 import walk
+        from datafileviewer.backends.hdf5 import walk
 
         node = walk(path)[0]
         self.assertEqual(node.classname, "HDF5FeatureSet")
@@ -123,7 +123,7 @@ class HDF5BackendTests(unittest.TestCase):
         self.assertEqual(note, "3 entries, 75 values (flattened)")
 
     def test_node_facts_reports_entries_for_a_leaf_dataset(self) -> None:
-        from rootfileviewer.backends.hdf5 import walk
+        from datafileviewer.backends.hdf5 import walk
 
         path = self._write({"nums": [1.0, 2.0, 3.0]})
         node = walk(path)[0]
@@ -141,7 +141,7 @@ class HDF5BackendTests(unittest.TestCase):
             f.create_dataset("jet", data=np.arange(6, dtype="float32").reshape(2, 3))
             f.attrs["jet_features"] = ["pt", "eta", "phi"]
 
-        from rootfileviewer.backends.hdf5 import walk
+        from datafileviewer.backends.hdf5 import walk
 
         node = walk(path)[0]
         self.assertEqual(node.classname, "HDF5FeatureSet")
@@ -160,7 +160,7 @@ class HDF5BackendTests(unittest.TestCase):
             ds = f.create_dataset("jet", data=np.arange(6, dtype="float32").reshape(2, 3))
             ds.attrs["features"] = ["pt", "eta", "phi"]
 
-        from rootfileviewer.backends.hdf5 import walk
+        from datafileviewer.backends.hdf5 import walk
 
         node = walk(path)[0]
         self.assertEqual({b.name for b in node.obj.branches}, {"pt", "eta", "phi"})
@@ -178,7 +178,7 @@ class HDF5BackendTests(unittest.TestCase):
             f.create_dataset("jet", data=np.arange(6, dtype="float32").reshape(2, 3))
             f.attrs["jet_features"] = ["only", "two"]  # length 2, but last axis is 3
 
-        from rootfileviewer.backends.hdf5 import walk
+        from datafileviewer.backends.hdf5 import walk
 
         node = walk(path)[0]
         self.assertEqual(node.classname, "HDF5FeatureSet")
@@ -195,7 +195,7 @@ class HDF5BackendTests(unittest.TestCase):
             # "last axis" of independent features to split here.
             f.attrs["nums_features"] = ["a", "b", "c"]
 
-        from rootfileviewer.backends.hdf5 import walk
+        from datafileviewer.backends.hdf5 import walk
 
         node = walk(path)[0]
         self.assertTrue(node.is_branch)
@@ -215,7 +215,7 @@ class HDF5BackendTests(unittest.TestCase):
             f.create_dataset("particle", data=data)
             f.attrs["particle_features"] = ["eta", "phi"]
 
-        from rootfileviewer.backends.hdf5 import walk
+        from datafileviewer.backends.hdf5 import walk
 
         node = walk(path)[0]
         columns = {b.name: b for b in node.obj.branches}

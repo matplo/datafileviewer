@@ -5,12 +5,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from rootfileviewer.core import branch_histogram_data, branch_nodes
+from datafileviewer.core import branch_histogram_data, branch_nodes
 
 HAVE_PANDAS = importlib.util.find_spec("pandas") is not None
 
 
-@unittest.skipUnless(HAVE_PANDAS, "pandas not installed (pip install rootfileviewer[pandas])")
+@unittest.skipUnless(HAVE_PANDAS, "pandas not installed (pip install datafileviewer[pandas])")
 class PandasBackendTests(unittest.TestCase):
     def _write_csv(self, df) -> str:
         path = str(Path(tempfile.mkdtemp()) / "test.csv")
@@ -23,7 +23,7 @@ class PandasBackendTests(unittest.TestCase):
         return path
 
     def _branch(self, path: str, name: str):
-        from rootfileviewer.backends.pandas_tables import walk
+        from datafileviewer.backends.pandas_tables import walk
 
         table = walk(path)[0].obj
         return {b.name: b for b in branch_nodes(table)}[name].obj
@@ -65,7 +65,7 @@ class PandasBackendTests(unittest.TestCase):
     def test_filter_matches_column_names(self) -> None:
         import pandas as pd
 
-        from rootfileviewer.backends.pandas_tables import walk
+        from datafileviewer.backends.pandas_tables import walk
 
         path = self._write_csv(pd.DataFrame({"pt": [1.0], "eta": [2.0], "n_jets": [3]}))
         table = walk(path, name_filter="pt|eta")[0].obj
