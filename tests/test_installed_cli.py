@@ -47,14 +47,14 @@ class InstalledCliTests(unittest.TestCase):
         self.assertEqual(entry_points.get("dfvt"), "datafileviewer.cli:main_tui")
 
     def test_package_version(self) -> None:
-        self.assertEqual(datafileviewer.__version__, "1.0.0")
+        self.assertEqual(datafileviewer.__version__, "1.0.2")
 
     def test_all_commands_report_their_invoked_name(self) -> None:
         for command in ("datafileviewer", "dfv", "dfvt"):
             with self.subTest(command=command):
                 result = self.run_cli(command, "--version")
                 self.assertEqual(result.returncode, 0, result.stderr)
-                self.assertEqual(result.stdout.strip(), f"{command} 1.0.0")
+                self.assertEqual(result.stdout.strip(), f"{command} 1.0.2")
 
     def test_both_commands_read_the_sample_file(self) -> None:
         for command in ("datafileviewer", "dfv"):

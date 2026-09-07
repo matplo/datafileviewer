@@ -3,6 +3,6 @@ files from the terminal."""
 
 from datafileviewer.core import Node, file_summary, tree_branch_info, walk_directory
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 __all__ = ["Node", "file_summary", "tree_branch_info", "walk_directory", "__version__"]
