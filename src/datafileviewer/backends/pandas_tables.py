@@ -13,6 +13,7 @@ ragged-array support. Only open .pkl/.pickle files from trusted sources.
 
 from __future__ import annotations
 
+import io
 import os
 import re
 
@@ -23,13 +24,42 @@ from datafileviewer.backends._common import to_awkward
 from datafileviewer.core import Node
 
 _READERS = {
-    ".csv": pd.read_csv,
+    ".csv": lambda path: _read_csv(path),
     ".pkl": pd.read_pickle,
     ".pickle": pd.read_pickle,
     ".feather": pd.read_feather,
     ".jsonl": lambda path: pd.read_json(path, lines=True),
     ".ndjson": lambda path: pd.read_json(path, lines=True),  # common alt spelling
 }
+
+
+def _read_csv(path: str) -> pd.DataFrame:
+    """pd.read_csv, with a fallback for HEPData-style exports.
+
+    HEPData's per-table CSV downloads (e.g. hepdata.net) prefix the real
+    header with several "#: key: value" metadata lines, and when a file
+    bundles more than one physics dataset (say, a particle and its
+    antiparticle), the metadata/header pair repeats again after a blank
+    line before the next block of data rows. Plain read_csv chokes on
+    that: the first metadata line has no comma so it infers 1 field, then
+    a later metadata line *with* commas in free text ("Error tokenizing
+    data. C error: Expected 1 fields ... saw 3") blows up the parse.
+
+    On that failure, drop blank lines and "#"-prefixed comment lines, then
+    drop any repeated occurrence of the header row itself (from a second
+    metadata+header block) and parse what's left as one combined table.
+    """
+    try:
+        return pd.read_csv(path)
+    except pd.errors.ParserError:
+        pass
+    with open(path, encoding="utf-8") as f:
+        lines = [ln for ln in f if ln.strip() and not ln.lstrip().startswith("#")]
+    if not lines:
+        raise pd.errors.EmptyDataError(f"no data rows found in {path!r}")
+    header = lines[0]
+    body = [header] + [ln for ln in lines[1:] if ln != header]
+    return pd.read_csv(io.StringIO("".join(body)))
 
 
 def _display_dtype(series: pd.Series) -> str:

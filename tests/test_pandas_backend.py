@@ -79,6 +79,37 @@ class PandasBackendTests(unittest.TestCase):
         branch = self._branch(path, "a")
         self.assertEqual(branch.num_entries, 3)
 
+    def test_hepdata_style_csv_with_comment_preamble_and_repeated_header(self) -> None:
+        # HEPData's per-table CSV downloads prefix the real header with
+        # "#: key: value" metadata lines, and repeat that metadata+header
+        # pair after a blank line when a file bundles more than one
+        # dataset (e.g. a particle and its antiparticle). Plain
+        # pd.read_csv chokes on this -- a metadata line with a comma in
+        # free text makes the C parser see more fields than the first
+        # (comma-less) line implied.
+        from datafileviewer.backends.pandas_tables import walk
+
+        text = (
+            "#: table_doi: 10.17182/hepdata.66563.v1/t1\n"
+            "#: description: some text, with a comma\n"
+            "\n"
+            "#: RE,,,P P --> X\n"
+            "pt,val\n"
+            "0.85,0.0063\n"
+            "1.1,0.0058\n"
+            "\n"
+            "#: RE,,,P P --> XBAR\n"
+            "pt,val\n"
+            "0.85,0.0063\n"
+            "1.1,0.0054\n"
+        )
+        path = str(Path(tempfile.mkdtemp()) / "Table1.csv")
+        Path(path).write_text(text)
+
+        table = walk(path)[0].obj
+        self.assertEqual(table.num_entries, 4)
+        self.assertEqual({b.name for b in table.branches}, {"pt", "val"})
+
 
 if __name__ == "__main__":
     unittest.main()
